@@ -1,47 +1,66 @@
-import React, { useState } from 'react'
-
-const Calculator = props => {
-    // Declare state variables
-
-
-    return (
-        <div className="container">
-            <h1>React Calculator</h1>
-            <div className="calc-container">
-                <p>Values: </p>
-                <div className="answer-box">TBD</div>
-                <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
-                    <button className="calc-button calc-button-top">%</button>
-                    <button className="calc-button calc-button-op">/</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button">7</button>
-                    <button className="calc-button">8</button>
-                    <button className="calc-button">9</button>
-                    <button className="calc-button calc-button-op">x</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button">4</button>
-                    <button className="calc-button">5</button>
-                    <button className="calc-button">6</button>
-                    <button className="calc-button calc-button-op">-</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button">1</button>
-                    <button className="calc-button">2</button>
-                    <button className="calc-button">3</button>
-                    <button className="calc-button calc-button-op">+</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button width-2">0</button>
-                    <button className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
-                </div>
-            </div>
-        </div>
-    )
+import React, { Component } from 'react'
+import "./Calculator.css"
+class Calculator extends Component {
+ 
+  state = {
+    num1: 0,
+    num2: 0,
+    total: null, 
+    operator: "Select One"
+  }
+  
+  setNum = (e, num) => {
+    this.setState({ [num]: parseInt(e.target.value)});
 }
 
-export default Calculator
+  operator = (e) => {
+    let type = e.target.value
+    this.setState({operator: type})
+  }
+
+  doMath = () => {
+    let num1 = this.state.num1
+    let num2 = this.state.num2
+    let operators = this.state.operator
+
+    if (operators === "+") {
+      this.setState({total: num1 + num2})
+    }
+    if (operators === "-") {
+      this.setState({total: num1 - num2})
+    }
+    if (operators === "*") {
+      this.setState({total: num1 * num2})
+    }
+    if (operators === "/") {
+      this.setState({total: num1 / num2})
+    }
+    if (operators === "select") {
+      this.setState({total: "choose an operator!"})
+    }
+  }
+
+  render(){
+    return(
+      <div className="container">
+        <h1>React Calculator</h1>
+ 
+        <div className="operations">
+          <input type="number" name="num1" value={this.state.num1} onChange={(e)=>this.setNum(e, 'num1')} />
+          <select onChange={this.operator}>
+            <option>Select One</option>
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+          </select>
+          <input type="number" name="num2" value={this.state.num2} onChange={(e)=>this.setNum(e, 'num2')}/>
+          <button onClick={this.doMath}>=</button>
+          <h3>{this.state.total}</h3>
+        </div>
+      </div>
+    )
+  }
+}
+ 
+export default Calculator;
